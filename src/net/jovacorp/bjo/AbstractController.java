@@ -8,7 +8,9 @@ import at.fhv.dgr1992.exceptions.VelocityLimitException;
 import java.util.Arrays;
 
 public abstract class AbstractController {
-  protected double noDetectionDistance = 0.05;
+  protected final int resolX = 64, resolY = 64;
+  protected final double maxVel = 120.0 * Math.PI / 180.0; // 4/3 of a full wheel turn
+  protected final double noDetectionDistance = 0.05;
 
   public void startBehavior() throws ControllerException {
     try {
@@ -55,17 +57,17 @@ public abstract class AbstractController {
     return true;
   }
 
-  protected boolean isObstacleInFront(double[] distances) {
+  protected boolean isObstacleInFront(double[] distances, double distanceModificator) {
     return !vectorGreater(
-            Arrays.copyOfRange(distances, 0, 6),
-            new double[] {
-                    0.25 * noDetectionDistance,
-                    0.25 * noDetectionDistance,
-                    0.25 * noDetectionDistance,
-                    0.25 * noDetectionDistance,
-                    0.25 * noDetectionDistance,
-                    0.25 * noDetectionDistance
-            });
+        Arrays.copyOfRange(distances, 0, 6),
+        new double[] {
+          distanceModificator * noDetectionDistance,
+          distanceModificator * noDetectionDistance,
+          distanceModificator * noDetectionDistance,
+          distanceModificator * noDetectionDistance,
+          distanceModificator * noDetectionDistance,
+          distanceModificator * noDetectionDistance,
+        });
   }
 
   public class ControllerException extends Exception {

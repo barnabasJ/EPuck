@@ -5,8 +5,6 @@ import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
 
 public class PushController extends AbstractController {
-  double maxVel = 120.0 * java.lang.Math.PI / 180.0; // 4/3 of a full wheel turn
-
   public static void main(String[] args) throws ControllerException {
     PushController pbcontroller = new PushController();
     pbcontroller.startBehavior();
@@ -17,7 +15,7 @@ public class PushController extends AbstractController {
     epuck.senseAllTogether();
     double[] distVector = epuck.getProximitySensorValues();
 
-    if (!isObstacleInFront(distVector))
+    if (!isObstacleInFront(distVector, 0.25))
       // nothing in front, go ahead approaching a box
       epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
     else {
