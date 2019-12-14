@@ -30,18 +30,24 @@ public class DoorController extends AbstractController {
       imageCenter = image.getBufferedImage().getWidth() / 2;
     }
 
-    if (imageCenter > doorCenter)
+    if (imageCenter > doorCenter) {
       // turn counterclockwise
+      System.out.println("left");
       epuck.setMotorSpeeds(new Speed((maxVel / 1.1), (maxVel)));
-    else if (imageCenter < doorCenter)
+    } else if (imageCenter < doorCenter) {
       // turn clockwise
+      System.out.println("right");
       epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 1.1)));
-    else {
+    } else {
       // drive straight
-      if (isObstacleInFront(distVector, 0.9))
+      System.out.println("straight");
+      if (isObstacleInFront(distVector, 0.9)) {
         // stop
+        System.out.println("stop");
         epuck.setMotorSpeeds(new Speed(0, 0));
-      else epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
+      } else {
+        epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
+      }
     }
     epuck.stepsim(1);
   }
@@ -51,8 +57,8 @@ public class DoorController extends AbstractController {
     int width = image.getBufferedImage().getWidth();
 
     boolean first = true;
-    Point topLeft = null;
-    Point bottomRight = null;
+    int topLeft = -1;
+    int bottomRight = -1;
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < heigth; y++) {
@@ -64,21 +70,23 @@ public class DoorController extends AbstractController {
         if ((r + b + g) == 0) {
           if (first) {
             first = false;
-            topLeft = new Point(x, y);
+            topLeft = x;
           } else {
-            bottomRight = new Point(x, y);
+            bottomRight = x;
           }
         }
       }
     }
 
-    return (bottomRight.getX() + topLeft.getX()) / 2;
+    return (bottomRight + topLeft) / 2;
   }
 
   @Override
   protected EPuckVRep setup() throws Exception {
     EPuckVRep ePuckVRep = baseSetup();
     image = ePuckVRep.getCameraImage();
+    doorCenter = findDoorCenter();
+    imageCenter = image.getBufferedImage().getWidth() / 2;
     return ePuckVRep;
   }
 }

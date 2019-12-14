@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b61f95a-0d64-444c-b94f-864f2ffffee1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/AbstractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/jovacorp/bjo/AbstractController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/DoorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/DoorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/PushController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/PushController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +121,7 @@
       <workItem from="1575618321815" duration="1189000" />
       <workItem from="1575878046995" duration="2915000" />
       <workItem from="1575882904081" duration="599000" />
-      <workItem from="1576320183066" duration="5942000" />
+      <workItem from="1576320183066" duration="6819000" />
     </task>
     <servers />
   </component>
