@@ -11,9 +11,16 @@ public class DoorController extends AbstractController {
   private int stepCounter = 0;
   private int doorCenter;
   private int imageCenter;
+  private boolean stopInfrontOfDoor = false;
+
+  public DoorController() {}
+
+  public DoorController(boolean stop) {
+    this.stopInfrontOfDoor = stop;
+  }
 
   public static void main(String[] args) throws ControllerException {
-    DoorController pbcontroller = new DoorController();
+    DoorController pbcontroller = new DoorController(false);
     pbcontroller.startBehavior();
   }
 
@@ -30,26 +37,37 @@ public class DoorController extends AbstractController {
       imageCenter = image.getBufferedImage().getWidth() / 2;
     }
 
-    if (imageCenter > doorCenter) {
+    if (doorCenter < 0) {
+      System.out.println("find door");
+      setSpeedWithObstacleCheck(epuck, new Speed(maxVel, -maxVel), distVector);
+    } else if (imageCenter > doorCenter) {
       // turn counterclockwise
       System.out.println("left");
-      epuck.setMotorSpeeds(new Speed((maxVel / 1.1), (maxVel)));
+      setSpeedWithObstacleCheck(epuck, new Speed(maxVel / 1.1, maxVel), distVector);
     } else if (imageCenter < doorCenter) {
       // turn clockwise
       System.out.println("right");
-      epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 1.1)));
+      setSpeedWithObstacleCheck(epuck, new Speed(maxVel, maxVel / 1.1), distVector);
     } else {
       // drive straight
       System.out.println("straight");
-      if (isObstacleInFront(distVector, 0.9)) {
-        // stop
-        System.out.println("stop");
-        epuck.setMotorSpeeds(new Speed(0, 0));
-      } else {
-        epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
-      }
+
+      setSpeedWithObstacleCheck(epuck, new Speed((maxVel), (maxVel)), distVector);
     }
     epuck.stepsim(1);
+  }
+
+  private void setSpeedWithObstacleCheck(EPuckVRep epuck, Speed speed, double[] distances)
+      throws Exception {
+    if (isObstacleInFront(extractValues(distances, 2, 3), 0.9)
+        && doorCenter >= 0
+        && stopInfrontOfDoor) {
+      // stop
+      System.out.println("stop");
+      epuck.setMotorSpeeds(new Speed(0, 0));
+    } else {
+      epuck.setMotorSpeeds(speed);
+    }
   }
 
   private int findDoorCenter() {
@@ -78,6 +96,8 @@ public class DoorController extends AbstractController {
       }
     }
 
+    System.out.println(bottomRight);
+    System.out.println(topLeft);
     return (bottomRight + topLeft) / 2;
   }
 

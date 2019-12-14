@@ -15,7 +15,7 @@ public class PushController extends AbstractController {
     epuck.senseAllTogether();
     double[] distVector = epuck.getProximitySensorValues();
 
-    if (!isObstacleInFront(distVector, 0.25))
+    if (!isObstacleInFront(extractValues(distVector, createRange(0, 6)), 0.25))
       // nothing in front, go ahead approaching a box
       epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
     else {

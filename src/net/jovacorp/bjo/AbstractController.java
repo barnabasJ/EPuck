@@ -5,8 +5,6 @@ import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 
-import java.util.Arrays;
-
 public abstract class AbstractController {
   protected final int resolX = 64, resolY = 64;
   protected final double maxVel = 120.0 * Math.PI / 180.0; // 4/3 of a full wheel turn
@@ -58,16 +56,25 @@ public abstract class AbstractController {
   }
 
   protected boolean isObstacleInFront(double[] distances, double distanceModificator) {
-    return !vectorGreater(
-        Arrays.copyOfRange(distances, 0, 6),
-        new double[] {
-          distanceModificator * noDetectionDistance,
-          distanceModificator * noDetectionDistance,
-          distanceModificator * noDetectionDistance,
-          distanceModificator * noDetectionDistance,
-          distanceModificator * noDetectionDistance,
-          distanceModificator * noDetectionDistance,
-        });
+    double[] detectionVector = new double[distances.length];
+    for (int i = 0; i < distances.length; i++)
+      detectionVector[i] = distanceModificator * noDetectionDistance;
+    return !vectorGreater(distances, detectionVector);
+  }
+
+  protected int[] createRange(int start, int end) {
+    int[] range = new int[end - start];
+    for (int i = 0; i < end - start; i++) range[i] = start + i;
+    return range;
+  }
+
+  protected double[] extractValues(double[] values, int... indices) {
+    double[] extractedValues = new double[indices.length];
+
+    for (int i = 0; i < indices.length; i++) {
+      extractedValues[i] = values[indices[i]];
+    }
+    return extractedValues;
   }
 
   public class ControllerException extends Exception {
