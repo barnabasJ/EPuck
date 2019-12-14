@@ -6,7 +6,6 @@ import net.jovacorp.bjo.AbstractController;
 
 public class PushController extends AbstractController {
   double maxVel = 120.0 * java.lang.Math.PI / 180.0; // 4/3 of a full wheel turn
-  int stepCounter = 0;
 
   public static void main(String[] args) throws ControllerException {
     PushController pbcontroller = new PushController();
@@ -15,8 +14,6 @@ public class PushController extends AbstractController {
 
   @Override
   protected void act(EPuckVRep epuck) throws Exception {
-    stepCounter += 1;
-    // boolean newImage = false;
     epuck.senseAllTogether();
     double[] distVector = epuck.getProximitySensorValues();
 
