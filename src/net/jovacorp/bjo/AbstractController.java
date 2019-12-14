@@ -5,7 +5,10 @@ import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 
+import java.util.Arrays;
+
 public abstract class AbstractController {
+  protected double noDetectionDistance = 0.05;
 
   public void startBehavior() throws ControllerException {
     try {
@@ -42,7 +45,7 @@ public abstract class AbstractController {
     return ePuckVRep;
   }
 
-  boolean vectorGreater(double[] v1, double[] v2) {
+  protected boolean vectorGreater(double[] v1, double[] v2) {
     // compare two vector element-wise
     if (v1.length != v2.length) {
       System.err.println("tries to compare two vectors of different lengths");
@@ -50,6 +53,19 @@ public abstract class AbstractController {
     }
     for (int i = 0; i < v1.length; i++) if (v1[i] <= v2[i]) return false;
     return true;
+  }
+
+  protected boolean isObstacleInFront(double[] distances) {
+    return !vectorGreater(
+            Arrays.copyOfRange(distances, 0, 6),
+            new double[] {
+                    0.25 * noDetectionDistance,
+                    0.25 * noDetectionDistance,
+                    0.25 * noDetectionDistance,
+                    0.25 * noDetectionDistance,
+                    0.25 * noDetectionDistance,
+                    0.25 * noDetectionDistance
+            });
   }
 
   public class ControllerException extends Exception {
