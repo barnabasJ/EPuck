@@ -6,7 +6,6 @@ import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 
 public abstract class AbstractController {
-  protected final int resolX = 64, resolY = 64;
   protected final double maxVel = 120.0 * Math.PI / 180.0; // 4/3 of a full wheel turn
   protected final double noDetectionDistance = 0.05;
 
