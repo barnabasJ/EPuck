@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b61f95a-0d64-444c-b94f-864f2ffffee1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/DoorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/DoorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/Point.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/WallController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/jovacorp/bjo/bangbang/WallController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/EpuckBarnabas" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -121,7 +123,8 @@
       <workItem from="1575618321815" duration="1189000" />
       <workItem from="1575878046995" duration="2915000" />
       <workItem from="1575882904081" duration="599000" />
-      <workItem from="1576320183066" duration="6819000" />
+      <workItem from="1576320183066" duration="8590000" />
+      <workItem from="1576414872039" duration="278000" />
     </task>
     <servers />
   </component>
@@ -137,22 +140,26 @@
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
     <state x="424" y="125" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1575282474180" />
-    <state x="773" y="180" key="#com.intellij.ide.util.MemberChooser" timestamp="1576325465053">
+    <state x="773" y="149" key="#com.intellij.ide.util.MemberChooser" timestamp="1576414932710">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
-    <state x="773" y="180" key="#com.intellij.ide.util.MemberChooser/0.42.1920.1038@0.42.1920.1038" timestamp="1576325465053" />
+    <state x="773" y="149" key="#com.intellij.ide.util.MemberChooser/0.42.1920.1038@0.42.1920.1038" timestamp="1576414932710" />
     <state x="811" y="390" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1575281580634">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
     <state x="811" y="390" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1575281580634" />
+    <state x="218" y="247" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1576333542107">
+      <screen x="0" y="42" width="1920" height="1038" />
+    </state>
+    <state x="218" y="247" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1576333542107" />
     <state x="702" y="198" key="EnvironmentVariablesDialog" timestamp="1575282470582">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
     <state x="702" y="198" key="EnvironmentVariablesDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1575282470582" />
-    <state x="748" y="225" key="FileChooserDialogImpl" timestamp="1575878786223">
+    <state x="748" y="194" key="FileChooserDialogImpl" timestamp="1576333444491">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
-    <state x="748" y="225" key="FileChooserDialogImpl/0.42.1920.1038@0.42.1920.1038" timestamp="1575878786223" />
+    <state x="748" y="194" key="FileChooserDialogImpl/0.42.1920.1038@0.42.1920.1038" timestamp="1576333444491" />
     <state width="1874" height="336" key="GridCell.Tab.0.bottom" timestamp="1575880925021">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
@@ -189,14 +196,14 @@
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
     <state x="461" y="133" key="SettingsEditor/0.42.1920.1038@0.42.1920.1038" timestamp="1575281528259" />
-    <state x="640" y="336" key="com.intellij.ide.util.TipDialog" timestamp="1575618537639">
+    <state x="640" y="305" key="com.intellij.ide.util.TipDialog" timestamp="1576414893002">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
-    <state x="640" y="336" key="com.intellij.ide.util.TipDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1575618537639" />
-    <state x="698" y="253" key="extract.method.dialog" timestamp="1576326928178">
+    <state x="640" y="305" key="com.intellij.ide.util.TipDialog/0.42.1920.1038@0.42.1920.1038" timestamp="1576414893002" />
+    <state x="698" y="191" key="extract.method.dialog" timestamp="1576415092981">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
-    <state x="698" y="253" key="extract.method.dialog/0.42.1920.1038@0.42.1920.1038" timestamp="1576326928178" />
+    <state x="698" y="191" key="extract.method.dialog/0.42.1920.1038@0.42.1920.1038" timestamp="1576415092981" />
     <state x="623" y="247" width="672" height="678" key="search.everywhere.popup" timestamp="1575878118101">
       <screen x="0" y="42" width="1920" height="1038" />
     </state>
