@@ -18,11 +18,6 @@ public class WallController extends AbstractController {
   protected void act(EPuckVRep epuck) throws Exception {
     epuck.senseAllTogether();
     double[] distVector = epuck.getProximitySensorValues();
-    for (double dist : distVector) {
-      System.out.print(dist);
-      System.out.print(" : ");
-    }
-    System.out.println("-");
 
     if (!wallFound) {
       wallFound = findWall(epuck, distVector);
@@ -34,17 +29,17 @@ public class WallController extends AbstractController {
 
   private void followWall(EPuckVRep epuck, double[] distVector)
       throws VelocityLimitException, RobotFunctionCallException {
-    if (distVector[2] < noDetectionDistance || distVector[3] < noDetectionDistance) {
-      // front sensor < noDetectionDistance -> turn clockwise
+    if (isObstacleInFrontOfSensors(extractValues(distVector, 2, 3), 1)) {
+      // if something is in front of us -> turn clockwise
       epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 10.0)));
-    } else if (distVector[1] < 0.25 * noDetectionDistance) {
-      // clockwise (to close to wall)
+    } else if (isObstacleInFrontOfSensors(extractValues(distVector, 1), 0.25)) {
+      // if we're to close to the wall ->  turn clockwise
       epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 5.0)));
-    } else if (distVector[1] > noDetectionDistance && distVector[2] > noDetectionDistance) {
-      // counterclockwise (to far away from wall)
+    } else if (!isObstacleInFrontOfSensors(extractValues(distVector, 1,2), 1)) {
+      // if we don't detect the wall on the left any more -> turn counterclockwise
       epuck.setMotorSpeeds(new Speed((maxVel / 2), maxVel));
     } else {
-      // straight
+      // otherwise -> straight
       epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
     }
   }
@@ -58,8 +53,7 @@ public class WallController extends AbstractController {
     }
     // wall found on left side, turn clockwise
     epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 10.0)));
-    if (isObstacleInFrontOfSensors(extractValues(distVector, 1,2), 0.3))
-      return true;
+    if (isObstacleInFrontOfSensors(extractValues(distVector, 1, 2), 0.3)) return true;
     return false;
   }
 
