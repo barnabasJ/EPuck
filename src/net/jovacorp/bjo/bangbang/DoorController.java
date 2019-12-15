@@ -59,7 +59,7 @@ public class DoorController extends AbstractController {
 
   private void setSpeedWithObstacleCheck(EPuckVRep epuck, Speed speed, double[] distances)
       throws Exception {
-    if (isObstacleInFront(extractValues(distances, 2, 3), 0.9)
+    if (isObstacleInFrontOfSensors(extractValues(distances, 2, 3), 0.9)
         && doorCenter >= 0
         && stopInfrontOfDoor) {
       // stop

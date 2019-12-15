@@ -25,14 +25,15 @@ public class WallController extends AbstractController {
     System.out.println("-");
 
     if (!wallFound) {
-      findWall(epuck, distVector);
+      wallFound = findWall(epuck, distVector);
     } else {
       followWall(epuck, distVector);
     }
     epuck.stepsim(1);
   }
 
-  private void followWall(EPuckVRep epuck, double[] distVector) throws VelocityLimitException, RobotFunctionCallException {
+  private void followWall(EPuckVRep epuck, double[] distVector)
+      throws VelocityLimitException, RobotFunctionCallException {
     if (distVector[2] < noDetectionDistance || distVector[3] < noDetectionDistance) {
       // front sensor < noDetectionDistance -> turn clockwise
       epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 10.0)));
@@ -48,16 +49,18 @@ public class WallController extends AbstractController {
     }
   }
 
-  private void findWall(EPuckVRep epuck, double[] distVector) throws VelocityLimitException, RobotFunctionCallException {
-    if (distVector[2] > noDetectionDistance && distVector[1] > noDetectionDistance) {
+  private boolean findWall(EPuckVRep epuck, double[] distVector)
+      throws VelocityLimitException, RobotFunctionCallException {
+    if (!isObstacleInFrontOfSensors(extractValues(distVector, 1, 2), 1)) {
       // not close to any wall on left side -> drive straight to find wall
       epuck.setMotorSpeeds(new Speed(maxVel, maxVel));
-    } else {
-      // wall found on left side, turn clockwise
-      epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 10.0)));
-      if (distVector[2] < 0.5 * noDetectionDistance && distVector[1] < 0.25 * noDetectionDistance)
-        wallFound = true;
+      return false;
     }
+    // wall found on left side, turn clockwise
+    epuck.setMotorSpeeds(new Speed((maxVel), (maxVel / 10.0)));
+    if (isObstacleInFrontOfSensors(extractValues(distVector, 1,2), 0.3))
+      return true;
+    return false;
   }
 
   @Override

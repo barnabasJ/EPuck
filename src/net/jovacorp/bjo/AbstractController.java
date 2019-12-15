@@ -55,7 +55,7 @@ public abstract class AbstractController {
     return true;
   }
 
-  protected boolean isObstacleInFront(double[] distances, double distanceModificator) {
+  protected boolean isObstacleInFrontOfSensors(double[] distances, double distanceModificator) {
     double[] detectionVector = new double[distances.length];
     for (int i = 0; i < distances.length; i++)
       detectionVector[i] = distanceModificator * noDetectionDistance;
