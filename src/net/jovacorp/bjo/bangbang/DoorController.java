@@ -20,7 +20,7 @@ public class DoorController extends AbstractController {
   }
 
   public static void main(String[] args) throws ControllerException {
-    DoorController pbcontroller = new DoorController(false);
+    DoorController pbcontroller = new DoorController();
     pbcontroller.startBehavior();
   }
 
