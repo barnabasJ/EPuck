@@ -97,9 +97,9 @@ public class PushBoxesController {
           System.out.println("push");
           pushDiscCalculator.calculateSpeed(epuck, distVector);
 
-        } else if (approachCalculator.activate(image)) {
+        } else if (approachCalculator.activate(ImageToVectorMapper.mapImageToVector(image))) {
           System.out.println("approach");
-          approachCalculator.calculateSpeed(epuck, image);
+          approachCalculator.calculateSpeed(ImageToVectorMapper.mapImageToVector(image));
 
         } else {
           System.out.println("find");

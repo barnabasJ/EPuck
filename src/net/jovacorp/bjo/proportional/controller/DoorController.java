@@ -4,6 +4,7 @@ import at.fhv.dgr1992.differentialWheels.Acceleration;
 import at.fhv.dgr1992.differentialWheels.CameraImage;
 import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
+import net.jovacorp.bjo.proportional.ImageToVectorMapper;
 import net.jovacorp.bjo.proportional.calculator.ApproachCalculator;
 
 public class DoorController extends AbstractController {
@@ -29,7 +30,7 @@ public class DoorController extends AbstractController {
     System.out.println(
         acceleration.getX() + " : " + acceleration.getY() + " : " + acceleration.getZ());
 
-    calculator.calculateSpeed(epuck, image);
+    calculator.calculateSpeed(ImageToVectorMapper.mapImageToVector(image));
     epuck.stepsim(1);
     stepCounter += 1;
   }
