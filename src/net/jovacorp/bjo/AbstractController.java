@@ -6,10 +6,8 @@ import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 
 /**
- * This is the Base Controller class.
- * It handles the normal sequence which is first setup and then
+ * This is the Base Controller class. It handles the normal sequence which is first setup and then
  * acting as long as the connection to the simulation is given.
- *
  */
 public abstract class AbstractController {
   protected final double maxVel = 120.0 * Math.PI / 180.0; // 4/3 of a full wheel turn
@@ -17,6 +15,7 @@ public abstract class AbstractController {
 
   /**
    * Starts the controller
+   *
    * @throws ControllerException
    */
   public void startBehavior() throws ControllerException {
@@ -29,17 +28,18 @@ public abstract class AbstractController {
   }
 
   /**
-   * This method must be implemented by every Controller,
-   * It is responsible for reading sensor data and setting
-   * motor speeds and so on.
+   * This method must be implemented by every Controller, It is responsible for reading sensor data
+   * and setting motor speeds and so on.
+   *
    * @param epuck the set up epuck
    * @throws Exception
    */
   protected abstract void act(EPuckVRep epuck) throws Exception;
 
   /**
-   * This method must be implemented by every Controller.
-   * It is responsible for setting up the epuck for later use.
+   * This method must be implemented by every Controller. It is responsible for setting up the epuck
+   * for later use.
+   *
    * @return the configured epuck instance
    * @throws Exception
    */
@@ -47,6 +47,7 @@ public abstract class AbstractController {
 
   /**
    * Returns a new Synchronous Epuck instance
+   *
    * @return a new Synchronous Epuck instance
    */
   protected EPuckVRep newSynchronousEPuck() {
@@ -55,6 +56,7 @@ public abstract class AbstractController {
 
   /**
    * Enables all sensors
+   *
    * @param epuck to configure
    * @return epuck with sensors enabled
    * @throws VelocityLimitException
@@ -72,8 +74,8 @@ public abstract class AbstractController {
 
   /**
    * A base setup that can be used by other Controllers
-   * @return an epuck instance with all sensors enabled
-   * and an established connection.
+   *
+   * @return an epuck instance with all sensors enabled and an established connection.
    * @throws Exception
    */
   protected EPuckVRep baseSetup() throws Exception {
@@ -85,7 +87,8 @@ public abstract class AbstractController {
   }
 
   /**
-   *  Checks if all values in the second vector are smaller than in the first
+   * Checks if all values in the second vector are smaller than in the first
+   *
    * @param v1 first vector
    * @param v2 second vector
    * @return true if all values in the second sector are smaller otherwise false
@@ -100,10 +103,11 @@ public abstract class AbstractController {
   }
 
   /**
-   *  Checks if an obstacle is in front of the given sensor values
+   * Checks if an obstacle is in front of the given sensor values
+   *
    * @param distances the sensor values
-   * @param distanceModificator the modificator with which the value of no
-   *                            detection is multiplied before comparison
+   * @param distanceModificator the modificator with which the value of no detection is multiplied
+   *     before comparison
    * @return true if a sensor is seeing an obstacle otherwise false
    */
   protected boolean isObstacleInFrontOfSensors(double[] distances, double distanceModificator) {
@@ -114,8 +118,8 @@ public abstract class AbstractController {
   }
 
   /**
-   * Creates an array with all values from start to end
-   * with step 1
+   * Creates an array with all values from start to end with step 1
+   *
    * @param start start value
    * @param end end value
    * @return int[] with all values from start to end
@@ -128,6 +132,7 @@ public abstract class AbstractController {
 
   /**
    * Extracts the values at the given indicies from an array
+   *
    * @param values The array with all values
    * @param indices The indicies of the values which should be extracted
    * @return the array with all extracted values
@@ -141,9 +146,15 @@ public abstract class AbstractController {
     return extractedValues;
   }
 
-  /**
-   * Wrapper Exception for the Exceptions thrown inside the Controller
-   */
+  protected double[] scaleSensorValues(double[] sensorValues) {
+    double[] scaledSensorValues = new double[sensorValues.length];
+    for (int i = 0; i < sensorValues.length; i++) {
+      scaledSensorValues[i] = sensorValues[i] < noDetectionDistance ? 1.0 : 0.0;
+    }
+    return scaledSensorValues;
+  }
+
+  /** Wrapper Exception for the Exceptions thrown inside the Controller */
   public class ControllerException extends Exception {
     public ControllerException(Exception e) {
       super(e);
