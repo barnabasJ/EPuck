@@ -1,5 +1,6 @@
 package net.jovacorp.bjo.proportional.controller;
 
+import at.fhv.dgr1992.differentialWheels.Speed;
 import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
 import net.jovacorp.bjo.proportional.calculator.PushDiscCalculator;
@@ -15,7 +16,10 @@ public class PushController extends AbstractController {
   @Override
   protected void act(EPuckVRep epuck) throws Exception {
     epuck.senseAllTogether();
-    calculator.calculateSpeed(epuck, epuck.getProximitySensorValues());
+    Speed speed =
+        calculator.calculateSpeed(
+            extractValues(epuck.getProximitySensorValues(), createRange(0, 6)));
+    epuck.setMotorSpeeds(speed);
     epuck.stepsim(1);
   }
 

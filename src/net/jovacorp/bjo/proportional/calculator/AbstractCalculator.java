@@ -17,7 +17,11 @@ public abstract class AbstractCalculator {
     this.proportionalMatrix = MatrixUtils.createRealMatrix(proportionalMatrixData);
   }
 
-  public abstract Speed calculateSpeed(double[] sensorValues);
+  public Speed calculateSpeed(double[] sensorValues) {
+    double[] result = proportionalMatrix.operate(sensorValues);
+    RealVector motorValues = MatrixUtils.createRealVector(result);
+    motorValues = motorValues.add(baseVelocityVector);
 
-  public abstract boolean activate(double[] sensorValues);
+    return new Speed(motorValues.getEntry(0), motorValues.getEntry(1));
+  }
 }
