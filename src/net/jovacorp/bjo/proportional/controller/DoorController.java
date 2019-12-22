@@ -2,6 +2,7 @@ package net.jovacorp.bjo.proportional.controller;
 
 import at.fhv.dgr1992.differentialWheels.Acceleration;
 import at.fhv.dgr1992.differentialWheels.CameraImage;
+import at.fhv.dgr1992.differentialWheels.Speed;
 import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
 import net.jovacorp.bjo.proportional.ImageToVectorMapper;
@@ -27,10 +28,11 @@ public class DoorController extends AbstractController {
       image = epuck.getCameraImage();
     }
 
-    System.out.println(
-        acceleration.getX() + " : " + acceleration.getY() + " : " + acceleration.getZ());
 
-    calculator.calculateSpeed(ImageToVectorMapper.mapImageToVector(image));
+    Speed speed = calculator.calculateSpeed(ImageToVectorMapper.mapImageToVector(image));
+      System.out.println(
+              speed.getLeft() + " : " + speed.getRight());
+    epuck.setMotorSpeeds(speed);
     epuck.stepsim(1);
     stepCounter += 1;
   }
