@@ -5,6 +5,9 @@ import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 
+import java.util.function.Function;
+import java.util.function.Predicate;
+
 /**
  * This is the Base Controller class. It handles the normal sequence which is first setup and then
  * acting as long as the connection to the simulation is given.
@@ -146,12 +149,54 @@ public abstract class AbstractController {
     return extractedValues;
   }
 
-  protected double[] scaleSensorValues(double[] sensorValues) {
+  /**
+   * Method wich allows to scale the sensor values based on the values and the index in the values
+   * array
+   *
+   * @param sensorValues double[] of sensor values
+   * @param scaler function to scale the value
+   * @return the scaled value
+   */
+  protected double[] scaleSensorValues(
+      double[] sensorValues, Function<Pair<Double, Integer>, Double> scaler) {
     double[] scaledSensorValues = new double[sensorValues.length];
     for (int i = 0; i < sensorValues.length; i++) {
-      scaledSensorValues[i] = sensorValues[i] < noDetectionDistance ? 1.0 : 0.0;
+      scaledSensorValues[i] = scaler.apply(new Pair(sensorValues[i], i));
     }
     return scaledSensorValues;
+  }
+
+  /**
+   * Checks if any of the values in the array returns true when run through the given predicate
+   *
+   * @param values double[] of values
+   * @param test check to see if the value corresponds to a searched value
+   * @return true uf any of the values returns true when run through the predicate otherwise false
+   */
+  protected boolean any(double[] values, Predicate<Double> test) {
+    for (double value : values) {
+      if (test.test(value)) return true;
+    }
+    return false;
+  }
+
+  protected void printSpeed(Speed speed) {
+     System.out.println(speed.getLeft() + " : " + speed.getRight());
+  }
+  /**
+   * Utility class to pass to the scaler
+   *
+   * @param <X> first value
+   * @param <Y> second value
+   */
+  public class Pair<X, Y> {
+    public final X first;
+    public final Y second;
+
+    public Pair(X first, Y second) {
+      this.first = first;
+      this.second = second;
+    }
   }
 
   /** Wrapper Exception for the Exceptions thrown inside the Controller */

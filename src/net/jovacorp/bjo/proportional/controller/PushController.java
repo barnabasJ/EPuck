@@ -17,7 +17,9 @@ public class PushController extends AbstractController {
   protected void act(EPuckVRep epuck) throws Exception {
     epuck.senseAllTogether();
     double[] scaledSensorValues =
-        scaleSensorValues(extractValues(epuck.getProximitySensorValues(), createRange(0, 6)));
+        scaleSensorValues(
+            extractValues(epuck.getProximitySensorValues(), createRange(0, 6)),
+            p -> p.first < noDetectionDistance ? 1.0 : 0);
     Speed speed = calculator.calculateSpeed(scaledSensorValues);
     epuck.setMotorSpeeds(speed);
     epuck.stepsim(1);
