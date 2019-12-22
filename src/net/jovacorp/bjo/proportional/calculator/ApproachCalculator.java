@@ -6,7 +6,7 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class ApproachCalculator extends AbstractCalculator {
   public ApproachCalculator() {
-    super(new double[][] {{0, 0.03}, {0.03, 0}});
+    super(new double[][] {{0, 0.5}, {0.5, 0}});
   }
 
   public Speed calculateSpeed(double[] sensorValues) {

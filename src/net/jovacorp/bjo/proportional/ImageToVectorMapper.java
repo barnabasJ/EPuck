@@ -5,13 +5,15 @@ import at.fhv.dgr1992.differentialWheels.CameraImagePixel;
 
 public class ImageToVectorMapper {
 
+  private static double deviation;
+
   public static double[] mapImageToVector(CameraImage image) {
 
     int height = image.getBufferedImage().getHeight();
     int width = image.getBufferedImage().getWidth();
-
-    int sumX = 0;
-    int countX = 0;
+    boolean first = true;
+    int bottomRight = 0;
+    int topLeft = 0;
 
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
@@ -21,21 +23,28 @@ public class ImageToVectorMapper {
         int b = pixel.getBlue();
 
         if ((r + b + g) == 0) {
-          sumX += x;
-          countX++;
+          if (first) {
+            first = false;
+            topLeft = x;
+          } else {
+            bottomRight = x;
+          }
         }
       }
     }
-
     int imageCentre = width / 2;
-    int doorCentroid = countX == 0 ? 0 : sumX / countX;
+    double doorCentroid =  (bottomRight + topLeft) / 2.0;
 
-    int deviation = imageCentre - doorCentroid; // deviation from camera centre to object centre
+    deviation = (imageCentre - doorCentroid) / 15.0; // deviation from camera centre to object centre
 
-    if (deviation > 0) {
-      return new double[] {0, -deviation};
+    if (doorCentroid == 0) {
+      return new double[] {-4, 0};
     }
 
-    return new double[] {deviation, 0};
+    if (deviation < 0) {
+      return new double[] {deviation, 0};
+    }
+
+    return new double[] {0, -deviation};
   }
 }
