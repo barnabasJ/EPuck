@@ -6,6 +6,10 @@ import at.fhv.dgr1992.differentialWheels.Speed;
 import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
 
+/**
+ * Controller which lets the epuck drive to the door. Can be instantiated with a boolean: true if it
+ * should stop at the door, false if it should keep running
+ */
 public class DoorController extends AbstractController {
   private CameraImage image;
   private int stepCounter = 0;
@@ -70,6 +74,12 @@ public class DoorController extends AbstractController {
     }
   }
 
+  /**
+   * Looks for the door in the image
+   *
+   * @return position of the center of the door inside the image
+   *         or -1 if no door is in the image
+   */
   private int findDoorCenter() {
     int heigth = image.getBufferedImage().getHeight();
     int width = image.getBufferedImage().getWidth();
@@ -96,8 +106,6 @@ public class DoorController extends AbstractController {
       }
     }
 
-    System.out.println(bottomRight);
-    System.out.println(topLeft);
     return (bottomRight + topLeft) / 2;
   }
 

@@ -11,33 +11,34 @@ import org.apache.commons.math3.linear.RealVector;
 
 public class UnwedgeCalculator {
 
-    double maxVel = 120.0 * Math.PI / 180.0;  // 4/3 of a full wheel turn
+  double maxVel = 120.0 * Math.PI / 180.0; // 4/3 of a full wheel turn
 
-    double[][] proportionalMatrixData = new double[][]{{0, 0.001}, {0.001, 0}};
-    RealMatrix proportionalMatrix = MatrixUtils.createRealMatrix(proportionalMatrixData);
+  double[][] proportionalMatrixData = new double[][] {{0, 0.001}, {0.001, 0}};
+  RealMatrix proportionalMatrix = MatrixUtils.createRealMatrix(proportionalMatrixData);
 
-    double[] baseVelocity = new double[]{maxVel, 0};
-    RealVector baseVelocityVector = MatrixUtils.createRealVector(baseVelocity);
+  double[] baseVelocity = new double[] {maxVel, 0};
+  RealVector baseVelocityVector = MatrixUtils.createRealVector(baseVelocity);
 
-    public void calculateSpeed(EPuck epuck) throws VelocityLimitException, RobotFunctionCallException {
+  public void calculateSpeed(EPuck epuck)
+      throws VelocityLimitException, RobotFunctionCallException {
 
-        double[] sensorValues = new double[]{-1, -1};
-        double[] result = proportionalMatrix.operate(sensorValues);
+    double[] sensorValues = new double[] {-1, -1};
+    double[] result = proportionalMatrix.operate(sensorValues);
 
-        RealVector motorValues = MatrixUtils.createRealVector(result);
-        motorValues = motorValues.add(baseVelocityVector);
+    RealVector motorValues = MatrixUtils.createRealVector(result);
+    motorValues = motorValues.add(baseVelocityVector);
 
-//        epuck.setMotorSpeeds(new Speed(motorValues.getEntry(0), motorValues.getEntry(1)));
-        epuck.setMotorSpeeds(new Speed(maxVel, -maxVel));
-    }
+    //        epuck.setMotorSpeeds(new Speed(motorValues.getEntry(0), motorValues.getEntry(1)));
+    epuck.setMotorSpeeds(new Speed(maxVel, -maxVel));
+  }
 
-    public boolean activate(Acceleration acceleration, boolean blocked) {
+  public boolean activate(Acceleration acceleration, boolean blocked) {
 
-        double thresholdStop = 0.9;
-        double forwardAcceleration = acceleration.getX();
+    double thresholdStop = 0.9;
+    double forwardAcceleration = acceleration.getX();
 
-        boolean stopped = (forwardAcceleration > 0.05);
+    boolean stopped = (forwardAcceleration > 0.05);
 
-        return stopped || blocked;
-    }
+    return stopped || blocked;
+  }
 }

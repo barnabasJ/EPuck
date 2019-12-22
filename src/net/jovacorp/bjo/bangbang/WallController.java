@@ -6,9 +6,12 @@ import at.fhv.dgr1992.exceptions.RobotFunctionCallException;
 import at.fhv.dgr1992.exceptions.VelocityLimitException;
 import net.jovacorp.bjo.AbstractController;
 
+/**
+ * A Controller which lets the epuck follow the wall on it's left side.
+ * At the start the epuck will drive forward until it detects a wall.
+ */
 public class WallController extends AbstractController {
   private boolean wallFound = false;
-  private int lostWall;
   private Status lastStatus;
   private int timesInSameStatus = 1;
 
@@ -30,9 +33,17 @@ public class WallController extends AbstractController {
     epuck.stepsim(1);
   }
 
+  /**
+   * Lets the epuck follow the wall by calculating it's current status
+   * and acting accordingly
+   * @param epuck the epuck to guide
+   * @param distVector the sensor values of the epuck
+   * @throws VelocityLimitException
+   * @throws RobotFunctionCallException
+   */
   private void followWall(EPuckVRep epuck, double[] distVector)
       throws VelocityLimitException, RobotFunctionCallException {
-    Status currentStatus = calcCurrentStatus(epuck, distVector);
+    Status currentStatus = calcCurrentStatus(distVector);
     timesInSameStatus = lastStatus == currentStatus ? timesInSameStatus + 1 : 1;
     switch (currentStatus) {
       case WALL_IN_FRONT:
@@ -60,13 +71,27 @@ public class WallController extends AbstractController {
     lastStatus = currentStatus;
   }
 
+  /**
+   * Calculates the speed for the slower wheel for a turn.
+   * It takes into account how long the epuck is already inside
+   * the same status. If it takes to long, the epuck is probably to close
+   * to an obstacle and needs to turn on the spot.
+   * @return the speed for the slower wheel in a turn
+   */
     private double calcSlowWheelSpeed() {
         double v = timesInSameStatus <= 50 ? maxVel / (10 * timesInSameStatus) : -1.0;
         System.out.println(v);
         return v;
     }
 
-    private Status calcCurrentStatus(EPuckVRep epuck, double[] distVector)
+  /**
+   * Calculates the current status of the epuck
+   * @param distVector the sensor values of the epuck
+   * @return the calculated status
+   * @throws VelocityLimitException
+   * @throws RobotFunctionCallException
+   */
+    private Status calcCurrentStatus(double[] distVector)
       throws VelocityLimitException, RobotFunctionCallException {
     if (isObstacleInFrontOfSensors(extractValues(distVector, 2, 3), 1)) {
       // if something is in front of us -> turn clockwise
@@ -81,6 +106,16 @@ public class WallController extends AbstractController {
     return Status.OK;
   }
 
+  /**
+   * Lets the epuck find the wall by driving forward until it detects an obstacle
+   * After an obstacle is detected it will turn the epuck clockwise to get the wall
+   * to the left side of the epuck
+   * @param epuck the epuck to guide
+   * @param distVector the sensor values of the epuck
+   * @return true if a wall is detected otherwise false
+   * @throws VelocityLimitException
+   * @throws RobotFunctionCallException
+   */
   private boolean findWall(EPuckVRep epuck, double[] distVector)
       throws VelocityLimitException, RobotFunctionCallException {
     if (!isObstacleInFrontOfSensors(extractValues(distVector, 1, 2), 1)) {
@@ -99,6 +134,9 @@ public class WallController extends AbstractController {
     return baseSetup();
   }
 
+  /**
+   * The different statuses the epuck can be in
+   */
   private enum Status {
     WALL_IN_FRONT,
     TO_CLOSE_TO_WALL,

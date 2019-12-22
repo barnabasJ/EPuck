@@ -4,6 +4,11 @@ import at.fhv.dgr1992.differentialWheels.Speed;
 import at.fhv.dgr1992.ePuck.ePuckVRep.EPuckVRep;
 import net.jovacorp.bjo.AbstractController;
 
+/**
+ * A Controller which lets the epuck push the object in front of it.
+ * The object has to be infront of the epuck at the start otherwise
+ * it won't be able to find the object
+ */
 public class PushController extends AbstractController {
   public static void main(String[] args) throws ControllerException {
     PushController pbcontroller = new PushController();
