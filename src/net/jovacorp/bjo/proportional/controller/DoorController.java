@@ -28,10 +28,8 @@ public class DoorController extends AbstractController {
       image = epuck.getCameraImage();
     }
 
-
     Speed speed = calculator.calculateSpeed(ImageToVectorMapper.mapImageToVector(image));
-      System.out.println(
-              speed.getLeft() + " : " + speed.getRight());
+    System.out.println(speed.getLeft() + " : " + speed.getRight());
     epuck.setMotorSpeeds(speed);
     epuck.stepsim(1);
     stepCounter += 1;

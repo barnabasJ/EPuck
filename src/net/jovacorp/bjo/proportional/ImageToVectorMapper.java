@@ -33,9 +33,10 @@ public class ImageToVectorMapper {
       }
     }
     int imageCentre = width / 2;
-    double doorCentroid =  (bottomRight + topLeft) / 2.0;
+    double doorCentroid = (bottomRight + topLeft) / 2.0;
 
-    deviation = (imageCentre - doorCentroid) / 15.0; // deviation from camera centre to object centre
+    deviation =
+        (imageCentre - doorCentroid) / 15.0; // deviation from camera centre to object centre
 
     if (doorCentroid == 0) {
       return new double[] {-4, 0};
